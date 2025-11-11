@@ -332,12 +332,18 @@ CRITICAL REQUIREMENTS:
       
       const aiResponse = JSON.parse(completion.choices[0].message.content || '{}');
       
-      // Transform response to match Credit Commander frontend expectations (7 sections)
+      // Transform response to match Credit Commander frontend expectations (9 sections)
       const response = {
         profileSummary: aiResponse.profileSummary || 'Profile summary not generated.',
         quickWins: aiResponse.quickWins || 'Quick wins not generated.',
         tradeLinesPlan: aiResponse.tradeLinesPlan || 'Trade lines plan not generated.',
+        vendorRecommendations: Array.isArray(aiResponse.vendorRecommendations) 
+          ? aiResponse.vendorRecommendations 
+          : [],
         cardStrategy: aiResponse.cardStrategy || 'Card strategy not generated.',
+        cardRecommendations: Array.isArray(aiResponse.cardRecommendations)
+          ? aiResponse.cardRecommendations
+          : [],
         bankingSignals: aiResponse.bankingSignals || 'Banking signals not generated.',
         actionPlan: typeof aiResponse.actionPlan === 'string' 
           ? aiResponse.actionPlan 
