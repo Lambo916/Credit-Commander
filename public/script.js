@@ -2051,11 +2051,12 @@ class ComplianceToolkit {
     generateReportName() {
         if (!this.currentResult?.payload) return 'Credit Roadmap';
         
-        const { projectName, grantType } = this.currentResult.payload;
+        const { businessName, entityType, state } = this.currentResult.payload;
         const parts = [];
         
-        if (projectName) parts.push(projectName);
-        if (grantType) parts.push(grantType);
+        if (businessName) parts.push(businessName);
+        if (entityType) parts.push(entityType);
+        else if (state) parts.push(state);
         
         return parts.join(' - ') || 'Credit Roadmap';
     }
@@ -2087,10 +2088,10 @@ class ComplianceToolkit {
 
             const payload = {
                 name: name,
-                entityName: this.currentResult.payload?.projectName || '',
-                entityType: this.currentResult.payload?.organizationType || '',
-                jurisdiction: this.currentResult.payload?.grantType || '',
-                filingType: this.currentResult.payload?.grantType || '',
+                entityName: this.currentResult.payload?.businessName || '',
+                entityType: this.currentResult.payload?.entityType || '',
+                jurisdiction: this.currentResult.payload?.state || '',
+                filingType: this.currentResult.payload?.timeframe || '',
                 deadline: '',
                 htmlContent: this.currentResult.structured?.html || '',
                 checksum: this.currentResult.checksum || '',
