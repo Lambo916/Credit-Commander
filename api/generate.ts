@@ -266,15 +266,15 @@ Generate a JSON object with these 7 sections (use markdown formatting):
   
   "quickWins": "1-2 paragraphs listing immediate actions they can take within 30 days to boost credit signals",
   
-  "tieredTradeLinesPlan": "2-3 paragraphs explaining starter, net-30, and revolving tradelines with specific vendor recommendations (Uline, Quill, Grainger, etc.)",
+  "tradeLinesPlan": "2-3 paragraphs explaining starter, net-30, and revolving tradelines with specific vendor recommendations (Uline, Quill, Grainger, etc.)",
   
   "cardStrategy": "2-3 paragraphs detailing which business cards to target based on their profile (Amex Blue Business Plus, Chase Ink, etc.), in what order, with utilization tips",
   
-  "bankingDataSignals": "1-2 paragraphs on banking relationships, revenue verification, and D&B/Experian profile optimization",
+  "bankingSignals": "1-2 paragraphs on banking relationships, revenue verification, and D&B/Experian profile optimization",
   
-  "actionPlan": "A clear 30/60/90-day timeline with specific milestones for each phase",
+  "actionPlan": "A clear 30/60/90-day timeline with specific milestones for each phase (as a formatted string, not an object)",
   
-  "riskFlagsCompliance": "1-2 paragraphs identifying any red flags (late payments, derogatories, utilization) and compliance issues"
+  "riskFlags": "1-2 paragraphs identifying any red flags (late payments, derogatories, utilization) and compliance issues"
 }
 
 CRITICAL REQUIREMENTS:
@@ -312,11 +312,13 @@ CRITICAL REQUIREMENTS:
       const response = {
         profileSummary: aiResponse.profileSummary || 'Profile summary not generated.',
         quickWins: aiResponse.quickWins || 'Quick wins not generated.',
-        tieredTradeLinesPlan: aiResponse.tieredTradeLinesPlan || 'Trade lines plan not generated.',
+        tradeLinesPlan: aiResponse.tradeLinesPlan || 'Trade lines plan not generated.',
         cardStrategy: aiResponse.cardStrategy || 'Card strategy not generated.',
-        bankingDataSignals: aiResponse.bankingDataSignals || 'Banking signals not generated.',
-        actionPlan: aiResponse.actionPlan || '30/60/90-day action plan not generated.',
-        riskFlagsCompliance: aiResponse.riskFlagsCompliance || 'Risk flags not generated.'
+        bankingSignals: aiResponse.bankingSignals || 'Banking signals not generated.',
+        actionPlan: typeof aiResponse.actionPlan === 'string' 
+          ? aiResponse.actionPlan 
+          : '30/60/90-day action plan not generated.',
+        riskFlags: aiResponse.riskFlags || 'Risk flags not generated.'
       };
 
       console.log('[Vercel] /api/generate - Credit roadmap generated successfully');
