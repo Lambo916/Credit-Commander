@@ -24,7 +24,7 @@ function setCORS(res: VercelResponse, origin: string | undefined) {
   const isDevelopment = process.env.NODE_ENV !== 'production';
   
   const allowedOrigins = [
-    'https://grant.yourbizguru.com',
+    'https://credit.yourbizguru.com',
     /https:\/\/.*\.vercel\.app$/,
     /https:\/\/.*\.replit\.dev$/,
   ];
@@ -47,7 +47,7 @@ function setCORS(res: VercelResponse, origin: string | undefined) {
     });
   }
 
-  res.setHeader('Access-Control-Allow-Origin', allowOrigin && origin ? origin : 'https://grant.yourbizguru.com');
+  res.setHeader('Access-Control-Allow-Origin', allowOrigin && origin ? origin : 'https://credit.yourbizguru.com');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
