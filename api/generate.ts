@@ -260,15 +260,37 @@ FUNDING GOALS:
 - Target Credit Limit: ${targetLimit || 'Not specified'}
 - Timeframe: ${timeframe || 'Not specified'}
 
-Generate a JSON object with these 7 sections (use markdown formatting):
+Generate a JSON object with these 9 sections (use markdown formatting):
 {
   "profileSummary": "2-3 paragraphs (200-250 words) analyzing the business's current credit position, strengths, and improvement opportunities",
   
   "quickWins": "1-2 paragraphs listing immediate actions they can take within 30 days to boost credit signals",
   
-  "tradeLinesPlan": "2-3 paragraphs explaining starter, net-30, and revolving tradelines with specific vendor recommendations (Uline, Quill, Grainger, etc.)",
+  "tradeLinesPlan": "2-3 paragraphs explaining starter, net-30, and revolving tradelines strategy",
   
-  "cardStrategy": "2-3 paragraphs detailing which business cards to target based on their profile (Amex Blue Business Plus, Chase Ink, etc.), in what order, with utilization tips",
+  "vendorRecommendations": [
+    {
+      "name": "Vendor name (e.g., Uline, Quill, Grainger)",
+      "approvalOdds": "High|Medium|Low",
+      "tier": "Starter|Net-30|Revolving",
+      "minFico": 0,
+      "reason": "Brief explanation why this vendor fits their profile",
+      "reportsBureaus": ["Dun & Bradstreet", "Experian", "Equifax"]
+    }
+  ],
+  
+  "cardStrategy": "2-3 paragraphs detailing business card strategy, timing, and utilization tips",
+  
+  "cardRecommendations": [
+    {
+      "name": "Card name (e.g., Amex Blue Business Plus, Chase Ink Business Cash)",
+      "issuer": "Issuer name (e.g., American Express, Chase)",
+      "approvalOdds": "High|Medium|Low",
+      "applyOrder": 1,
+      "benefits": "Key benefits and rewards structure",
+      "annualFee": "$0 or fee amount"
+    }
+  ],
   
   "bankingSignals": "1-2 paragraphs on banking relationships, revenue verification, and D&B/Experian profile optimization",
   
@@ -279,7 +301,9 @@ Generate a JSON object with these 7 sections (use markdown formatting):
 
 CRITICAL REQUIREMENTS:
 - Be specific and actionable - reference actual data from the profile
-- Include specific vendor names and card products
+- Generate 3-5 vendor recommendations tailored to their credit profile and business stage
+- Generate 3-5 card recommendations in priority order (applyOrder: 1, 2, 3, etc.)
+- Match approval odds to their actual FICO score and credit history
 - Provide realistic timeframes based on current credit age
 - Use clear, direct business language
 - If information is missing, insert [Pending Input] but still provide general guidance
