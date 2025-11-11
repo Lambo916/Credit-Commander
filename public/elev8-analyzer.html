@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" class="elev8-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elev8 Analyzer · YourBizGuru</title>
+    <meta name="description" content="Elevate your business strategy — powered by YourBizGuru">
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Theme Color - Green for Analyzer -->
+    <meta name="theme-color" content="#2E7D32">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- App Styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="elev8-theme.css">
+    
+    <!-- Open Graph for social media -->
+    <meta property="og:title" content="Elev8 Analyzer · YourBizGuru">
+    <meta property="og:description" content="Elevate your business strategy — powered by YourBizGuru">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="ybg-logo.png">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <img src="ybg-logo.svg" alt="YourBizGuru Logo" class="logo" data-testid="img-logo">
+                    <div class="title-container">
+                        <h1 class="app-title" data-testid="text-app-title">Elev8 Analyzer</h1>
+                        <p class="app-tagline" data-testid="text-app-tagline">Elevate your business strategy — powered by YourBizGuru</p>
+                    </div>
+                </div>
+                <button class="theme-toggle" id="themeToggle" data-testid="button-theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon" id="themeIcon">☀️</span>
+                    <span>Theme</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Input Panel (Left) - SCAFFOLD: Diagnostic Form -->
+            <div class="input-panel panel" data-testid="panel-input">
+                <div class="panel-header">
+                    <h2 data-testid="text-input-header">Business Profile</h2>
+                </div>
+                <div class="panel-content">
+                    <form id="toolkitForm" class="toolkit-form diagnostic-form" data-testid="form-toolkit">
+                        
+                        <div class="form-group">
+                            <label for="businessName" class="form-label required">
+                                Business Name <span class="required-marker">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="businessName" 
+                                class="form-input"
+                                placeholder="Your Business Name"
+                                required
+                                data-testid="input-business-name"
+                            />
+                            <span class="error-message" id="businessNameError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="industry" class="form-label required">
+                                Industry <span class="required-marker">*</span>
+                            </label>
+                            <select 
+                                id="industry" 
+                                class="form-select"
+                                required
+                                data-testid="select-industry"
+                            >
+                                <option value="">Select industry...</option>
+                                <option value="Technology / Software">Technology / Software</option>
+                                <option value="Professional Services">Professional Services</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Manufacturing">Manufacturing</option>
+                                <option value="Retail / E-commerce">Retail / E-commerce</option>
+                                <option value="Construction">Construction</option>
+                                <option value="Food & Beverage">Food & Beverage</option>
+                                <option value="Real Estate">Real Estate</option>
+                                <option value="Financial Services">Financial Services</option>
+                                <option value="Transportation & Logistics">Transportation & Logistics</option>
+                                <option value="Education">Education</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span class="error-message" id="industryError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="revenueRange" class="form-label required">
+                                Annual Revenue Range <span class="required-marker">*</span>
+                            </label>
+                            <select 
+                                id="revenueRange" 
+                                class="form-select"
+                                required
+                                data-testid="select-revenue"
+                            >
+                                <option value="">Select revenue range...</option>
+                                <option value="Pre-Revenue">Pre-Revenue</option>
+                                <option value="$0 - $100K">$0 - $100K</option>
+                                <option value="$100K - $500K">$100K - $500K</option>
+                                <option value="$500K - $1M">$500K - $1M</option>
+                                <option value="$1M - $5M">$1M - $5M</option>
+                                <option value="$5M - $10M">$5M - $10M</option>
+                                <option value="$10M+">$10M+</option>
+                            </select>
+                            <span class="error-message" id="revenueRangeError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="creditProfile" class="form-label">
+                                Credit Profile
+                            </label>
+                            <select 
+                                id="creditProfile" 
+                                class="form-select"
+                                data-testid="select-credit"
+                            >
+                                <option value="">Select credit profile...</option>
+                                <option value="Excellent (740+)">Excellent (740+)</option>
+                                <option value="Good (670-739)">Good (670-739)</option>
+                                <option value="Fair (580-669)">Fair (580-669)</option>
+                                <option value="Poor (<580)">Poor (&lt;580)</option>
+                                <option value="Unknown/Not Established">Unknown/Not Established</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="employees" class="form-label required">
+                                Number of Employees <span class="required-marker">*</span>
+                            </label>
+                            <select 
+                                id="employees" 
+                                class="form-select"
+                                required
+                                data-testid="select-employees"
+                            >
+                                <option value="">Select employee count...</option>
+                                <option value="Just Me (0 employees)">Just Me (0 employees)</option>
+                                <option value="1-5">1-5</option>
+                                <option value="6-10">6-10</option>
+                                <option value="11-25">11-25</option>
+                                <option value="26-50">26-50</option>
+                                <option value="51-100">51-100</option>
+                                <option value="100+">100+</option>
+                            </select>
+                            <span class="error-message" id="employeesError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="challenges" class="form-label">
+                                Primary Business Challenges
+                            </label>
+                            <textarea 
+                                id="challenges" 
+                                class="form-textarea"
+                                rows="4"
+                                placeholder="Describe your main business challenges, pain points, or growth obstacles..."
+                                data-testid="textarea-challenges"
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="goals" class="form-label">
+                                Strategic Goals (Next 12 Months)
+                            </label>
+                            <textarea 
+                                id="goals" 
+                                class="form-textarea"
+                                rows="4"
+                                placeholder="What are your key business objectives for the next year?"
+                                data-testid="textarea-goals"
+                            ></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn" data-testid="button-submit">
+                            <span id="submitText">Generate Analysis</span>
+                            <span id="loadingText" class="hidden">Analyzing...</span>
+                        </button>
+
+                        <button type="button" class="clear-btn" id="clearBtn" data-testid="button-clear">
+                            Clear Form
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Panel (Right) -->
+            <div class="results-panel panel" data-testid="panel-results">
+                <div class="panel-header">
+                    <h2 data-testid="text-results-header">Analysis Results</h2>
+                    <div class="panel-actions">
+                        <select id="exportMode" class="export-mode-select" data-testid="select-export-mode">
+                            <option value="latest">Latest Result</option>
+                            <option value="all">All Results</option>
+                        </select>
+                        <button 
+                            id="exportPdfBtn" 
+                            class="action-btn"
+                            title="Export to PDF (Ctrl+S)"
+                            data-testid="button-export-pdf"
+                        >
+                            Export PDF
+                        </button>
+                        <button 
+                            id="copyAllBtn" 
+                            class="action-btn"
+                            title="Copy all results to clipboard (Ctrl+Shift+C)"
+                            data-testid="button-copy-all"
+                        >
+                            Copy All
+                        </button>
+                        <button 
+                            id="clearHistoryBtn" 
+                            class="clear-btn"
+                            title="Clear all results"
+                            data-testid="button-clear-history"
+                        >
+                            Clear
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <div id="resultsContainer" class="results-container" data-testid="container-results">
+                        <div class="no-results" id="noResults" data-testid="text-no-results">
+                            No analysis yet. Enter your business profile and click Generate Analysis to get started.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer" data-testid="footer-app">
+            <div class="footer-content">
+                <img src="/favicon-32x32.png" alt="YBG logo" width="24" height="24" style="vertical-align: middle; margin-right: 8px;">
+                Powered by <a href="https://yourbizguru.com" target="_blank">YourBizGuru.com</a>
+                • <a href="/privacy.html">Privacy</a> • <a href="/terms.html">Terms</a>
+            </div>
+            <div class="footer-disclaimer" data-testid="text-disclaimer">
+                Disclaimer: For informational purposes only. Not legal, tax, or financial advice.
+            </div>
+        </footer>
+    </div>
+
+    <!-- Result Item Template (Hidden) -->
+    <template id="resultTemplate">
+        <div class="result-item" data-testid="item-result">
+            <div class="result-header">
+                <span class="result-timestamp" data-testid="text-result-timestamp"></span>
+                <div class="result-actions">
+                    <button class="action-btn copy-btn" title="Copy Result" data-testid="button-copy">
+                        Copy
+                    </button>
+                </div>
+            </div>
+            <div class="result-content" data-testid="text-result-content"></div>
+        </div>
+    </template>
+
+    <!-- NOTE: This is a SCAFFOLD demonstrating the Elev8 Analyzer form structure -->
+    <!-- The JavaScript would need to be adapted to handle the diagnostic form data -->
+    <!-- For now, this shows the modular branding and form structure -->
+    
+    <script>
+        // Set toolkit context for Elev8 Analyzer
+        window.currentToolkitName = "Elev8 Analyzer";
+        window.currentToolkitIcon = "/favicon-32x32.png";
+        window.ACTIVE_TOOLKIT = 'elev8analyzer';
+    </script>
+    
+    <!-- PDF Export System -->
+    <script src="pdf-export.js"></script>
+    
+    <!-- Toolkit Configuration -->
+    <script src="toolkit-config.js"></script>
+    
+    <!-- App JavaScript (would need adaptation for diagnostic form) -->
+    <script src="script.js"></script>
+</body>
+</html>

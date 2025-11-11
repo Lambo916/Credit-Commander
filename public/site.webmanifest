@@ -1,0 +1,21 @@
+{
+  "name": "Credit Commander",
+  "short_name": "Credit Commander",
+  "description": "Build business credit with AI-powered assistance",
+  "icons": [
+    {
+      "src": "/attached_assets/2025_CreditCommander_logo_transparent_1762780397460.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/attached_assets/2025_CreditCommander_logo_transparent_1762780397460.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#4DB6E7",
+  "background_color": "#0c0f13",
+  "display": "standalone",
+  "start_url": "/"
+}

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Commander - Build Business Credit with AI</title>
+    <meta name="description" content="Build business credit with AI-powered assistance. Get personalized credit-building roadmaps tailored to your business.">
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/png" href="/attached_assets/2025_CreditCommander_logo_transparent_1762780397460.png">
+    <link rel="apple-touch-icon" href="/attached_assets/2025_CreditCommander_logo_transparent_1762780397460.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#4DB6E7">
+    
+    <!-- Google Fonts - Montserrat (headings) and Open Sans (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- App Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- jsPDF and html2canvas will be loaded dynamically by PDF export system -->
+    
+    <!-- Open Graph for social media embedding -->
+    <meta property="og:title" content="Credit Commander - Build Business Credit with AI">
+    <meta property="og:description" content="Build business credit with AI-powered assistance. Get personalized credit-building roadmaps tailored to your business.">
+    <meta property="og:type" content="website">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <img src="/attached_assets/2025_CreditCommander_logo_transparent_1762780397460.png" alt="Credit Commander Logo" class="logo" data-testid="img-logo">
+                    <div class="title-container">
+                        <h1 class="app-title cc-glow-title" data-testid="text-app-title">Credit Commander</h1>
+                        <p class="app-tagline cc-subtle" data-testid="text-app-tagline">Build business credit with AI-powered assistance</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Full-Width Theme Toggle (Contractor Commander Style) -->
+        <button class="theme-toggle-fullwidth" id="themeToggle" data-testid="button-theme-toggle" aria-label="Toggle theme">
+            <span class="theme-icon" id="themeIcon">🌙</span>
+            <span>Theme</span>
+        </button>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Input Panel (Left) -->
+            <div class="input-panel panel" data-testid="panel-input">
+                <div class="panel-header">
+                    <h2 data-testid="text-input-header">Input</h2>
+                </div>
+                <div class="panel-content">
+                    <form id="toolkitForm" class="toolkit-form credit-form" data-testid="form-toolkit">
+                        <!-- Business Profile Section -->
+                        <div class="cc-card" style="padding: 20px; margin-bottom: 20px;">
+                            <h3 class="cc-section-title" style="margin: 0 0 16px 0; font-size: 15px; font-weight: 600; color: var(--cc-primary);">Business Profile</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="businessName" class="form-label required" data-testid="label-business-name">
+                                        Business Name <span class="required-marker">*</span>
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="businessName" 
+                                        class="cc-input"
+                                        placeholder="e.g., Acme Consulting LLC"
+                                        required
+                                        autofocus
+                                        data-testid="input-business-name"
+                                    />
+                                    <span class="error-message" id="businessNameError"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="ein" class="form-label" data-testid="label-ein">
+                                        EIN
+                                        <span class="info-icon" data-tooltip="Employer Identification Number - your business's unique 9-digit tax ID issued by the IRS." data-testid="info-ein">ⓘ</span>
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="ein" 
+                                        class="cc-input"
+                                        placeholder="12-3456789"
+                                        data-testid="input-ein"
+                                        maxlength="10"
+                                    />
+                                    <span class="error-message" id="einError"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="entityType" class="form-label required" data-testid="label-entity-type">
+                                        Entity Type <span class="required-marker">*</span>
+                                    </label>
+                                    <select 
+                                        id="entityType" 
+                                        class="cc-select"
+                                        required
+                                        data-testid="select-entity-type"
+                                    >
+                                        <option value="">Select entity type...</option>
+                                        <option value="LLC">LLC</option>
+                                        <option value="S-Corp">S-Corp</option>
+                                        <option value="C-Corp">C-Corp</option>
+                                        <option value="Partnership">Partnership</option>
+                                        <option value="Sole Proprietorship">Sole Proprietorship</option>
+                                    </select>
+                                    <span class="error-message" id="entityTypeError"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="state" class="form-label required" data-testid="label-state">
+                                        State <span class="required-marker">*</span>
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="state" 
+                                        class="cc-input"
+                                        placeholder="e.g., Delaware"
+                                        required
+                                        data-testid="input-state"
+                                    />
+                                    <span class="error-message" id="stateError"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="startDate" class="form-label required" data-testid="label-start-date">
+                                        Date Established <span class="required-marker">*</span>
+                                        <span class="info-icon" data-tooltip="When was your business officially established? This helps determine your business credit history length." data-testid="info-start-date">ⓘ</span>
+                                    </label>
+                                    <input 
+                                        type="month" 
+                                        id="startDate" 
+                                        class="cc-input"
+                                        required
+                                        data-testid="input-start-date"
+                                    />
+                                    <span class="error-message" id="startDateError"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="annualRevenue" class="form-label required" data-testid="label-annual-revenue">
+                                        Annual Revenue <span class="required-marker">*</span>
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="annualRevenue" 
+                                        class="cc-input"
+                                        placeholder="$500,000"
+                                        required
+                                        data-testid="input-annual-revenue"
+                                    />
+                                    <span class="error-message" id="annualRevenueError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credit Metrics Section -->
+                        <div class="cc-card" style="padding: 20px; margin-bottom: 20px;">
+                            <h3 class="cc-section-title" style="margin: 0 0 16px 0; font-size: 15px; font-weight: 600; color: var(--cc-primary);">Credit Metrics</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="utilization" class="form-label required" data-testid="label-utilization">
+                                        Credit Utilization % <span class="required-marker">*</span>
+                                        <span class="info-icon" data-tooltip="The percentage of available credit currently being used. Lower is better - aim for under 30% to maximize your credit score." data-testid="info-utilization">ⓘ</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="utilization" 
+                                        class="cc-input"
+                                        placeholder="e.g., 35"
+                                        min="0"
+                                        max="100"
+                                        inputmode="numeric"
+                                        required
+                                        data-testid="input-utilization"
+                                    />
+                                    <span class="error-message" id="utilizationError"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="tradeLines" class="form-label required" data-testid="label-trade-lines">
+                                        Trade Lines <span class="required-marker">*</span>
+                                        <span class="info-icon" data-tooltip="The number of active credit accounts your business has (e.g., credit cards, vendor accounts, business loans). More diverse trade lines help build stronger credit." data-testid="info-trade-lines">ⓘ</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="tradeLines" 
+                                        class="cc-input"
+                                        placeholder="e.g., 3"
+                                        min="0"
+                                        inputmode="numeric"
+                                        required
+                                        data-testid="input-trade-lines"
+                                    />
+                                    <span class="error-message" id="tradeLinesError"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="latePayments" class="form-label required" data-testid="label-late-payments">
+                                        Late Payments (90 Days) <span class="required-marker">*</span>
+                                        <span class="info-icon" data-tooltip="How many payments were made 30+ days late in the last 90 days? Late payments significantly damage your credit score." data-testid="info-late-payments">ⓘ</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="latePayments" 
+                                        class="cc-input"
+                                        placeholder="0"
+                                        min="0"
+                                        inputmode="numeric"
+                                        required
+                                        data-testid="input-late-payments"
+                                    />
+                                    <span class="error-message" id="latePaymentsError"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="derogatories" class="form-label" data-testid="label-derogatories">
+                                        Derogatories / Collections
+                                        <span class="info-icon" data-tooltip="Negative marks on your credit report such as liens, judgments, collections, or bankruptcies. These significantly impact creditworthiness. Enter 'None' if you have a clean record." data-testid="info-derogatories">ⓘ</span>
+                                    </label>
+                                    <input 
+                                        type="text"
+                                        id="derogatories" 
+                                        class="cc-input"
+                                        placeholder="None (or list if any)"
+                                        data-testid="input-derogatories"
+                                    />
+                                    <span class="error-message" id="derogatoriesError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Owner Information Section -->
+                        <div class="cc-card" style="padding: 20px; margin-bottom: 20px;">
+                            <h3 class="cc-section-title" style="margin: 0 0 16px 0; font-size: 15px; font-weight: 600; color: var(--cc-primary);">Owner Information</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="ownerFico" class="form-label required" data-testid="label-owner-fico">
+                                        Owner FICO Score <span class="required-marker">*</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="ownerFico" 
+                                        class="cc-input"
+                                        placeholder="e.g., 720"
+                                        min="300"
+                                        max="850"
+                                        inputmode="numeric"
+                                        required
+                                        data-testid="input-owner-fico"
+                                    />
+                                    <span class="error-message" id="ownerFicoError"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="creditHistory" class="form-label required" data-testid="label-credit-history">
+                                        Credit History (Years) <span class="required-marker">*</span>
+                                        <span class="info-icon" data-tooltip="How many years has the business owner had personal credit? This helps determine creditworthiness even if the business is new." data-testid="info-credit-history">ⓘ</span>
+                                    </label>
+                                    <input 
+                                        type="number" 
+                                        id="creditHistory" 
+                                        class="cc-input"
+                                        placeholder="e.g., 8"
+                                        min="0"
+                                        inputmode="numeric"
+                                        required
+                                        data-testid="input-credit-history"
+                                    />
+                                    <span class="error-message" id="creditHistoryError"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Funding Goals Section -->
+                        <div class="cc-card" style="padding: 20px; margin-bottom: 20px;">
+                            <h3 class="cc-section-title" style="margin: 0 0 16px 0; font-size: 15px; font-weight: 600; color: var(--cc-primary);">Funding Goals</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fundingGoal" class="form-label required" data-testid="label-funding-goal">
+                                        Funding Goal <span class="required-marker">*</span>
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="fundingGoal" 
+                                        class="cc-input"
+                                        placeholder="e.g., Equipment purchase"
+                                        required
+                                        data-testid="input-funding-goal"
+                                    />
+                                    <span class="error-message" id="fundingGoalError"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="targetLimit" class="form-label required" data-testid="label-target-limit">
+                                        Target Credit Limit <span class="required-marker">*</span>
+                                        <span class="info-icon" data-tooltip="What's your desired total business credit limit across all accounts? This goal helps shape your credit-building strategy." data-testid="info-target-limit">ⓘ</span>
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="targetLimit" 
+                                        class="cc-input"
+                                        placeholder="$100,000"
+                                        required
+                                        data-testid="input-target-limit"
+                                    />
+                                    <span class="error-message" id="targetLimitError"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="timeframe" class="form-label required" data-testid="label-timeframe">
+                                    Timeframe <span class="required-marker">*</span>
+                                    <span class="info-icon" data-tooltip="How quickly do you want to achieve your credit goals? Shorter timeframes require more aggressive strategies." data-testid="info-timeframe">ⓘ</span>
+                                </label>
+                                <select 
+                                    id="timeframe" 
+                                    class="cc-select"
+                                    required
+                                    data-testid="select-timeframe"
+                                >
+                                    <option value="">Select timeframe...</option>
+                                    <option value="30 days">30 days</option>
+                                    <option value="60 days">60 days</option>
+                                    <option value="90 days">90 days</option>
+                                    <option value="6 months">6 months</option>
+                                    <option value="12 months">12 months</option>
+                                </select>
+                                <span class="error-message" id="timeframeError"></span>
+                            </div>
+                        </div>
+
+                        <!-- Submit Section -->
+                        <button 
+                            type="submit" 
+                            class="cc-btn cc-btn-fullwidth" 
+                            id="submitBtn"
+                            data-testid="button-submit"
+                        >
+                            <span id="submitText">Generate Credit Roadmap</span>
+                            <span id="loadingText" class="hidden">Generating...</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Panel (Right) -->
+            <div class="results-panel panel" data-testid="panel-results">
+                <div class="panel-header">
+                    <h2 data-testid="text-results-header">Results</h2>
+                    <div class="panel-actions toolbar-actions">
+                        <!-- File Menu -->
+                        <div class="menu-dropdown">
+                            <button class="cc-btn cc-btn--secondary menu-btn toolbar-trigger" data-testid="button-file-menu">
+                                File ▾
+                            </button>
+                            <div class="menu-content" data-testid="menu-file">
+                                <button id="saveReportBtn" data-testid="button-save-report">
+                                    Save Report
+                                </button>
+                                <button id="loadReportBtn" data-testid="button-load-report">
+                                    Load Report
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Export Menu -->
+                        <div class="menu-dropdown">
+                            <button class="cc-btn cc-btn--secondary menu-btn toolbar-trigger" data-testid="button-export-menu">
+                                Export ▾
+                            </button>
+                            <div class="menu-content" data-testid="menu-export">
+                                <button id="exportPdfBtn" data-testid="button-export-pdf">
+                                    Export PDF
+                                </button>
+                                <button id="exportDocxBtn" data-testid="button-export-docx">
+                                    Export DOCX
+                                </button>
+                                <button id="exportCsvBtn" data-testid="button-export-csv">
+                                    Export CSV
+                                </button>
+                                <button id="copyAllBtn" data-testid="button-copy-all">
+                                    Copy All
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Tools Menu -->
+                        <div class="menu-dropdown">
+                            <button class="cc-btn cc-btn--secondary menu-btn toolbar-trigger" data-testid="button-tools-menu">
+                                Tools ▾
+                            </button>
+                            <div class="menu-content" data-testid="menu-tools">
+                                <button id="explainBtn" data-testid="button-explain">
+                                    Explain My Report
+                                </button>
+                                <button id="clearBtn" data-testid="button-clear">
+                                    Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <!-- KPI Panel -->
+                    <div id="kpiPanel" class="kpi-panel" style="display: none;" data-testid="panel-kpi">
+                        <div class="kpi-grid">
+                            <div class="kpi-card kpi-card-interactive" data-testid="card-kpi-utilization" data-kpi="utilization">
+                                <div class="kpi-label">Credit Utilization</div>
+                                <div class="kpi-value" id="kpiUtilization">--</div>
+                                <div class="kpi-progress-bar">
+                                    <div class="kpi-progress-fill" id="kpiUtilizationBar" style="width: 0%"></div>
+                                </div>
+                                <div class="kpi-target">Target: Below 30%</div>
+                                <div class="kpi-tooltip" id="tooltipUtilization" style="display: none;">
+                                    <div class="tooltip-content">Click for AI guidance...</div>
+                                </div>
+                            </div>
+                            <div class="kpi-card kpi-card-interactive" data-testid="card-kpi-tradelines" data-kpi="tradelines">
+                                <div class="kpi-label">Trade Lines</div>
+                                <div class="kpi-value" id="kpiTradeLines">--</div>
+                                <div class="kpi-progress-bar">
+                                    <div class="kpi-progress-fill" id="kpiTradeLinesBar" style="width: 0%"></div>
+                                </div>
+                                <div class="kpi-target">Target: 5+ active</div>
+                                <div class="kpi-tooltip" id="tooltipTradeLines" style="display: none;">
+                                    <div class="tooltip-content">Click for AI guidance...</div>
+                                </div>
+                            </div>
+                            <div class="kpi-card kpi-card-interactive" data-testid="card-kpi-fico" data-kpi="fico">
+                                <div class="kpi-label">Owner FICO</div>
+                                <div class="kpi-value" id="kpiFico">--</div>
+                                <div class="kpi-progress-bar">
+                                    <div class="kpi-progress-fill" id="kpiFicoBar" style="width: 0%"></div>
+                                </div>
+                                <div class="kpi-target">Target: 680+</div>
+                                <div class="kpi-tooltip" id="tooltipFico" style="display: none;">
+                                    <div class="tooltip-content">Click for AI guidance...</div>
+                                </div>
+                            </div>
+                            <div class="kpi-card" data-testid="card-kpi-progress">
+                                <div class="kpi-label">30/60/90 Progress</div>
+                                <div class="kpi-progress-bar">
+                                    <div class="kpi-progress-fill" id="kpiProgressFill" style="width: 0%"></div>
+                                </div>
+                                <div class="kpi-target" id="kpiProgressText">Day 0 of 90</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Signals at a Glance Badge Strip -->
+                    <div id="signalsStrip" class="cc-card" style="display: none; padding: 18px; margin-bottom: 20px;" data-testid="panel-signals">
+                        <h3 class="cc-section-title" style="margin: 0 0 14px 0; font-size: 16px; font-weight: 600;">Signals at a Glance</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px;" data-testid="container-badges">
+                            <span id="badgeUtilization" class="cc-badge" data-testid="badge-utilization">Utilization: --</span>
+                            <span id="badgeLatePayments" class="cc-badge" data-testid="badge-late-payments">Late Payments: --</span>
+                            <span id="badgeDerogatories" class="cc-badge" data-testid="badge-derogatories">Derogatories: --</span>
+                            <span id="badgeFico" class="cc-badge" data-testid="badge-fico">FICO: --</span>
+                            <span id="badgeTradeLines" class="cc-badge" data-testid="badge-trade-lines">Trade Lines: --</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Credit Score Tracker -->
+                    <div id="scoreTracker" style="display: none; margin-bottom: 20px;">
+                        <div class="cc-card" style="padding: 20px;">
+                            <h3 style="margin: 0 0 12px 0; color: var(--accent-color); font-size: 18px;">Credit Score Projection</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 14px;">Estimated credit score improvement based on your roadmap.</p>
+                            <div id="scoreChart" data-testid="chart-score-trend"></div>
+                        </div>
+                    </div>
+
+                    <!-- Smart Alerts -->
+                    <div id="smartAlerts" style="display: none; margin-bottom: 20px;">
+                        <div id="alertsContainer" data-testid="container-alerts"></div>
+                    </div>
+
+                    <!-- Funding Simulator -->
+                    <div id="fundingSimulator" style="display: none; margin-bottom: 20px;">
+                        <div class="cc-card" style="padding: 20px;">
+                            <h3 style="margin: 0 0 12px 0; color: var(--accent-color); font-size: 18px;">Funding Qualification Simulator</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 14px;">Estimate qualification chances for business funding based on your credit profile.</p>
+                            <div style="margin-bottom: 16px;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-color); font-size: 14px;">
+                                    Desired Loan Amount: <span style="color: var(--accent-color);" id="loanAmountValue">$50,000</span>
+                                </label>
+                                <input type="range" id="loanAmountSlider" min="5000" max="500000" step="5000" value="50000" data-testid="slider-loan-amount" style="width: 100%;" />
+                            </div>
+                            <div id="fundingResults"></div>
+                        </div>
+                    </div>
+                    
+                    <div id="resultsContainer" class="results-container" data-testid="container-results">
+                        <div class="no-results" id="noResults" data-testid="text-no-results">
+                            No results yet. Enter your request and click Generate to get started.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="cc-footer" data-testid="footer-app">
+            <div class="footer-content">
+                Powered by <a href="https://yourbizguru.com" target="_blank" class="cc-link">YourBizGuru.com</a>
+                • <a href="/privacy.html" class="cc-link">Privacy</a> • <a href="/terms.html" class="cc-link">Terms</a>
+            </div>
+            <div class="cc-subtle footer-disclaimer" data-testid="text-disclaimer">
+                Disclaimer: For informational purposes only. Not legal, tax, or financial advice.
+            </div>
+        </footer>
+    </div>
+
+    <!-- Result Item Template (Hidden) -->
+    <template id="resultTemplate">
+        <div class="result-item" data-testid="item-result">
+            <div class="result-header">
+                <span class="result-timestamp" data-testid="text-result-timestamp"></span>
+                <div class="result-actions">
+                    <button class="action-btn copy-btn" title="Copy Result" data-testid="button-copy">
+                        Copy
+                    </button>
+                </div>
+            </div>
+            <div class="result-content" data-testid="text-result-content"></div>
+        </div>
+    </template>
+
+    <!-- Save Modal -->
+    <div id="saveModal" class="modal-overlay" style="display: none;" data-testid="modal-save">
+        <div class="modal-content panel" style="max-width: 500px; margin: 100px auto;">
+            <div class="panel-header">
+                <h2 data-testid="text-save-modal-title">Save Report</h2>
+                <button class="modal-close" id="saveModalClose" data-testid="button-save-modal-close" aria-label="Close">×</button>
+            </div>
+            <div class="panel-content">
+                <div class="form-group">
+                    <label for="reportName" class="form-label" data-testid="label-report-name">
+                        Report Name <span class="required-marker">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="reportName" 
+                        class="form-input"
+                        placeholder="e.g., Q4 Annual Report - Acme Corp"
+                        data-testid="input-report-name"
+                        required
+                    />
+                    <small style="color: rgb(var(--text-muted)); font-size: 13px; display: block; margin-top: 4px;">
+                        Give this report a descriptive name for easy identification
+                    </small>
+                </div>
+                <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
+                    <button 
+                        class="action-btn" 
+                        id="cancelSaveBtn"
+                        data-testid="button-cancel-save"
+                        style="background: rgb(var(--border-strong)); color: rgb(var(--text));"
+                    >
+                        Cancel
+                    </button>
+                    <button 
+                        class="submit-btn" 
+                        id="confirmSaveBtn"
+                        data-testid="button-confirm-save"
+                    >
+                        Save Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Modal -->
+    <div id="loadModal" class="modal-overlay" style="display: none;" data-testid="modal-load">
+        <div class="modal-content panel" style="max-width: 800px; width: 90%; max-height: 80vh; overflow: hidden; display: flex; flex-direction: column;">
+            <div class="panel-header" style="display: flex; align-items: center; gap: 12px;">
+                <img src="/attached_assets/2025_CreditCommander_logo_transparent_1762780397460.png" alt="Credit Commander" style="height: 32px; width: auto;">
+                <h2 data-testid="text-load-modal-title" style="flex: 1;">Load Saved Reports</h2>
+                <button class="modal-close" id="loadModalClose" data-testid="button-load-modal-close" aria-label="Close">×</button>
+            </div>
+            <div class="panel-content" style="overflow-y: auto; flex: 1;">
+                <div id="savedReportsList" data-testid="list-saved-reports">
+                    <div style="text-align: center; padding: 40px; color: rgb(var(--text-muted));" data-testid="text-loading-reports">
+                        Loading saved reports...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Export System -->
+    <script src="pdf-export.js?v=2.0"></script>
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Authentication -->
+    <script src="auth.js"></script>
+    
+    <!-- App JavaScript - Unified Rendering Architecture -->
+    <script src="script.js?v=20241111-1242"></script>
+</body>
+</html>

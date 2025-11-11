@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TOOLKIT_NAME}} · YourBizGuru</title>
+    <meta name="description" content="{{TOOLKIT_DESC}} - Professional business tools powered by YourBizGuru">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/public/favicon.ico">
+    
+    <!-- Google Fonts - Montserrat (headings) and Open Sans (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- App Styles -->
+    <link rel="stylesheet" href="app.css">
+    
+    <!-- Open Graph for social media embedding -->
+    <meta property="og:title" content="{{TOOLKIT_NAME}} · YourBizGuru">
+    <meta property="og:description" content="{{TOOLKIT_DESC}} - Professional business tools powered by YourBizGuru">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/public/ybg-logo.png">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <img src="/public/ybg-logo.svg" alt="YourBizGuru Logo" class="logo" data-testid="img-logo">
+                <h1 class="app-title" data-testid="text-app-title">{{TOOLKIT_NAME}}</h1>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Input Panel (Left) -->
+            <div class="input-panel panel" data-testid="panel-input">
+                <div class="panel-header">
+                    <h2 data-testid="text-input-header">Input</h2>
+                </div>
+                <div class="panel-content">
+                    <form id="toolkitForm" class="toolkit-form" data-testid="form-toolkit">
+                        <div class="form-group">
+                            <label for="promptInput" class="form-label" data-testid="text-prompt-label">
+                                Enter your request:
+                            </label>
+                            <textarea 
+                                id="promptInput" 
+                                class="form-textarea" 
+                                placeholder="{{DEFAULT_PROMPT_HELPER}}"
+                                rows="6"
+                                required
+                                data-testid="input-prompt"
+                            ></textarea>
+                        </div>
+                        <button 
+                            type="submit" 
+                            class="submit-btn" 
+                            id="submitBtn"
+                            data-testid="button-submit"
+                        >
+                            <span id="submitText">Generate</span>
+                            <span id="loadingText" class="hidden">Thinking...</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Panel (Right) -->
+            <div class="results-panel panel" data-testid="panel-results">
+                <div class="panel-header">
+                    <h2 data-testid="text-results-header">{{RESULT_LABEL}}</h2>
+                    <button 
+                        id="clearHistoryBtn" 
+                        class="clear-btn"
+                        title="Clear all results"
+                        data-testid="button-clear-history"
+                    >
+                        Clear
+                    </button>
+                </div>
+                <div class="panel-content">
+                    <div id="resultsContainer" class="results-container" data-testid="container-results">
+                        <div class="no-results" id="noResults" data-testid="text-no-results">
+                            No results yet. Enter your request and click Generate to get started.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer" data-testid="footer-app">
+            <p>Powered by <a href="https://yourbizguru.com" target="_blank" rel="noopener noreferrer">YourBizGuru.com</a></p>
+        </footer>
+    </div>
+
+    <!-- Result Item Template (Hidden) -->
+    <template id="resultTemplate">
+        <div class="result-item" data-testid="item-result">
+            <div class="result-header">
+                <span class="result-timestamp" data-testid="text-result-timestamp"></span>
+                <div class="result-actions">
+                    <button class="action-btn copy-btn" title="{{EXPORT_LABEL}} - Copy" data-testid="button-copy">
+                        Copy
+                    </button>
+                    <button class="action-btn download-btn" title="{{EXPORT_LABEL}} - Download" data-testid="button-download">
+                        Download
+                    </button>
+                </div>
+            </div>
+            <div class="result-content" data-testid="text-result-content"></div>
+        </div>
+    </template>
+
+    <!-- App JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>

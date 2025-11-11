@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm install",
+  "outputDirectory": "public",
+  "cleanUrls": true,
+  "trailingSlash": false
+}

@@ -1,0 +1,148 @@
+MASTER CACTICODE — “Credit Commander” from GrantGenie v3 (UI clone, features swapped)
+
+GOAL
+- Use GrantGenie v3 as the base. Keep its UI layout, theme toggle, color system, button styles, spacing, and export utilities.
+- Replace all grant-specific content with Credit Commander content, assets, endpoints, and copy.
+- Deliver a polished, mobile-first MVP with dark theme default.
+
+KEEP (from GrantGenie)
+- App shell + header layout + gradient wash
+- Theme toggle (light/dark), default = DARK
+- Button component with glow hover/focus
+- Card, input, textarea, select, tooltip components
+- PDF & CSV export utilities
+- localStorage save/load
+- Usage limit middleware (counter + lockout UX)
+- Footer: “Powered by YourBizGuru.com” + Privacy/Terms links
+
+GLOBAL RENAME/SWAP
+- App name: Credit Commander
+- Tagline: Build business credit with AI-powered assistance
+- Route/slug: /credit (if applicable)
+- Icon: credit-card style (placeholder OK)
+- Replace ALL “Grant Genie/GrantGenie/grant” strings with “Credit Commander/creditCommander/credit”
+- Update meta: <title>, description, OpenGraph/Twitter
+
+BRANDING (YBG)
+- Colors (do NOT change names; just values):
+  --primary: #4DB6E7 (YBG Light Blue)
+  --accent:  #FFEB3B (YBG Yellow)  ← use for outlines, small glows
+  --ink:     #111418 (dark text)
+  --paper:   #0D1116 (dark bg) / #FAFBFD (light bg)
+  --muted:   #8FA3B8
+- Effects: keep subtle diagonal wash + soft outer glows on CTAs and KPI badges (accent glow).
+- Default theme = DARK. Ensure toggle icon/moon matches other toolkits.
+
+HEADER
+- Left: app icon + “Credit Commander”
+- Right: Theme toggle (same component as GG)
+- Subhead: “Enter your business & credit details to generate a personalized credit-building roadmap.”
+
+LEFT PANEL — INTAKE FORM (replace fields & labels)
+Business Profile
+- Legal Business Name* (text)
+- EIN (Optional) (masked 12-3456789; accept digits/format)
+- Entity Type* (select: Sole Prop, LLC, Corp, LLP, Nonprofit, Other)
+- State* (US states)
+- Business Start Date (Optional) (date)
+
+Credit Signals
+- Current Credit Card Utilization (%)* (number 0–100; helper: “Target < 10%”)
+- Number of Trade Lines* (integer 0–50; helper: “Target 10+”)
+- Monthly Revenue Range (select: <$5k, $5–10k, $10–25k, $25–50k, $50–100k, $100k+)
+- Recent late payments (checkbox)
+- Derogatories on record (checkbox)
+
+Owner Snapshot (Optional)
+- Personal FICO Range (select: <580, 580–639, 640–679, 680–719, 720+)
+- Years in Credit History (number)
+- Preferred Funding Goal (select: Vendor Net-30, Store Card, Fuel Card, Secured Card, Unsecured Card, LOC)
+
+Goals
+- Target Credit Limit (number; default 50000)
+- Timeframe (select: 3 months, 6 months, 9 months, 12 months)
+
+Branding (Optional)
+- Letterhead toggle + logo upload (retain size/validation from GG)
+
+CTA
+- Primary button: “Generate Credit Roadmap” (same loading states & rate-limit UX)
+
+CENTER PANEL — AI ROADMAP (swap section templates)
+Sections to generate (7):
+1) Profile Summary (business + credit signals)
+2) Quick Wins (utilization, payments, disputes hygiene)
+3) Tiered Trade Lines Plan (Starter → Core → Growth; 3–5 vendor recs each)
+4) Card Strategy (secured/unsecured; target issuers; utilization policy)
+5) Banking & Data Signals (bank balance targets, inflow consistency, Plaid-type readiness notes)
+6) 30/60/90-Day Action Plan (bullet tasks + checkpoints)
+7) Risk Flags & Compliance Notes (late/derogs handling, address/EIN mismatches)
+
+RIGHT PANEL — KPI / VISUALS
+- Profile Completion (progress ring)
+- Utilization (% with “Target <10%” helper)
+- Trade Lines (count with “Target 10+”)
+- Progress meter (30/60/90-day)
+- Add small stat pills: “Time in Business”, “Revenue Band”
+- All stats inherit neon accent rim as in GG.
+
+PDF EXPORT (polish)
+- Title: “Credit Commander — Business Credit Roadmap”
+- Header: logo (if provided), company name, date
+- Include all 7 sections + KPIs on first page sidebar
+- Reduce spacing; page breaks between major sections
+- Small disclaimer footer (same style as GG; update wording to credit advisory)
+
+CSV EXPORT
+- Columns: Section, Recommendation, Priority (High/Med/Low), ETA (days), Notes
+- Fill from roadmap actions (flatten bullet lists)
+
+LOCALSTORAGE
+- Key: cc_v1_form
+- Auto-save on change; “Load Saved” on mount (like GG)
+
+USAGE LIMITS
+- Soft cap: 30 reports/session (same component)
+- Lockout message: “Daily limit reached. Try again tomorrow.”
+
+VALIDATION
+- Number coercion for numeric inputs
+- EIN pattern tolerant to plain digits or 2-7-format
+- Required flags: Business Name, Entity, State, Utilization, Trade Lines
+
+CODE TASKS (high-level)
+1) Duplicate GG project structure; rename app identifiers to creditCommander.
+2) Replace form schema/labels/placeholders per above.
+3) Swap prompt builder: use new 7-section template; keep OpenAI call pattern.
+4) Wire roadmap → PDF/CSV exporters (title, filename prefix “credit_commander_YYYYMMDD”).
+5) Update theme default to dark; keep toggle persistence.
+6) Apply YBG colors; add accent glow class to primary buttons + KPI.
+7) Replace favicon/app icon (credit card). Keep your <link rel="icon"> references.
+8) Update footer links to YourBizGuru.com (open in new tab).
+9) Ensure mobile layout matches GG breakpoints.
+
+PROMPT TEMPLATE (server/client as used in GG; text only)
+- System: “You are Credit Commander, an expert in U.S. business credit building...”
+- User content includes:
+  - Business Profile (name, entity, state, start date)
+  - Credit Signals (util %, trade lines, revenue, late/derogs)
+  - Owner Snapshot (fico band, years credit, goal)
+  - Output spec = the 7 sections with concise bullets and metrics.
+
+ACCEPTANCE CHECKLIST
+- [ ] Dark loads by default; toggle persists; light mirrors GG.
+- [ ] All “grant” strings removed; no stray GG assets.
+- [ ] Form validates; numbers convert correctly.
+- [ ] Roadmap renders all 7 sections with headings.
+- [ ] KPIs show values; targets shown underneath.
+- [ ] PDF export ≤ 2–5 pages with tight spacing; no warped logo.
+- [ ] CSV export downloads with 5+ actionable rows.
+- [ ] localStorage autosave/restore works.
+- [ ] Usage limit locks at 30, with friendly message.
+- [ ] Mobile: inputs, buttons, cards match GG padding/spacing.
+
+DELIVERABLES
+- Working preview link
+- Diff summary of changed files
+- One screenshot dark + one light theme
+- Commit message: “feat(credit-commander): clone GG UI, swap to credit features, YBG skin, dark default, exports wired”
