@@ -1,73 +1,65 @@
 # Dependencies
 node_modules/
+.pnpm-store/
+jspm_packages/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.npm
+.yarn-integrity
 
-# Environment Variables
+# Build outputs
+dist/
+.build/
+.next/
+.vercel/
+out/
+.nuxt
+.parcel-cache
+.cache
+.storybook-out
+
+# Environment variables & secrets
 .env
+.env.*
 .env.local
+.env.*.local
 .env.development.local
 .env.test.local
 .env.production.local
+*.local
+replit.secrets
+replit.nix
+
+# Replit-specific (don't commit to external repos)
+attached_assets/
+.replit
+.breakpoints
+.upm/
 
 # Logs
-logs
+logs/
 *.log
-
-# Runtime data
+npm-debug.log*
 pids
 *.pid
 *.seed
 *.pid.lock
 
-# Coverage directory used by tools like istanbul
+# Testing & coverage
 coverage/
 *.lcov
-
-# nyc test coverage
 .nyc_output
-
-# Dependency directories
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
 .eslintcache
 
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
-
-# Next.js build output
-.next
-
-# Nuxt.js build / generate output
-.nuxt
-dist
-
-# Storybook build outputs
-.out
-.storybook-out
-
-# Temporary folders
+# Temporary files
 tmp/
 temp/
-
-# Editor directories and files
-.vscode/
-.idea/
 *.swp
 *.swo
 *~
+*.tgz
+*.tar.gz
 
 # OS generated files
 .DS_Store
@@ -78,13 +70,11 @@ temp/
 ehthumbs.db
 Thumbs.db
 
-# Vercel
-.vercel
-
-# Local development files
-*.local
+# Editor directories
+.vscode/
+.idea/
+*.swp
 
 # Legacy files
 server/public
 vite.config.ts.*
-*.tar.gz
