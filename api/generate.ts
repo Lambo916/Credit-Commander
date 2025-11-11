@@ -189,124 +189,137 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    console.log(`[Express] /api/generate - Starting grant proposal generation (usage: ${usageCheck.count}/30)`);
+    console.log(`[Vercel] /api/generate - Starting credit roadmap generation (usage: ${usageCheck.count}/30)`);
     
     const { formData } = req.body as any;
     
     if (!formData) {
-      console.error('[Express] /api/generate - Missing formData');
+      console.error('[Vercel] /api/generate - Missing formData');
       return res.status(400).json({ error: 'formData is required' });
     }
 
     const {
-      projectName,
-      organizationType,
-      grantType,
-      problemStatement,
-      solutionActivities,
-      expectedOutcomes,
-      totalBudget,
-      writingTone
+      businessName,
+      ein,
+      entityType,
+      state,
+      startDate,
+      annualRevenue,
+      utilization,
+      tradeLines,
+      latePayments,
+      derogatories,
+      ownerFico,
+      creditHistory,
+      fundingGoal,
+      targetLimit,
+      timeframe
     } = formData;
 
-    // Validate required fields for grant proposals
-    if (!organizationType || !grantType) {
+    // Validate required fields for Credit Commander
+    if (!businessName || !entityType) {
       return res.status(400).json({
-        error: "Organization type and grant type are required.",
+        error: "Business name and entity type are required.",
       });
     }
 
-    console.log('[Express] /api/generate - Grant proposal data:', {
-      projectName,
-      organizationType,
-      grantType,
-      totalBudget
+    console.log('[Vercel] /api/generate - Credit roadmap data:', {
+      businessName,
+      entityType,
+      state,
+      fundingGoal,
+      timeframe
     });
 
     // Initialize OpenAI client
     const ai = getOpenAI();
 
-    // Generate grant proposal using AI
-    console.log('[Express] /api/generate - Generating grant proposal with AI...');
+    // Generate credit roadmap using AI
+    console.log('[Vercel] /api/generate - Generating credit roadmap with AI...');
     
-    const grantProposalPrompt = `You are an expert grant writer specializing in creating compelling, professional grant proposals that win funding.
+    const creditRoadmapPrompt = `Generate a personalized business credit-building roadmap for:
 
-Generate a comprehensive grant proposal for:
-- Project/Organization: ${projectName || '[Project Name]'} 
-- Organization Type: ${organizationType}
-- Grant Type: ${grantType}
-- Total Budget: ${totalBudget || 'Not specified'}
-- Problem/Need: ${problemStatement || 'Not specified'}
-- Solution/Activities: ${solutionActivities || 'Not specified'}
-- Expected Outcomes: ${expectedOutcomes || 'Not specified'}
-- Writing Tone: ${writingTone || 'Professional & Persuasive'}
+BUSINESS PROFILE:
+- Business Name: ${businessName}
+- Entity Type: ${entityType || 'Not specified'}
+- State: ${state || 'Not specified'}
+- EIN: ${ein ? 'Provided' : 'Not provided'}
+- Business Start Date: ${startDate || 'Not specified'}
+- Annual Revenue: ${annualRevenue || 'Not specified'}
 
-CRITICAL: Create a persuasive, well-structured grant proposal with specific details. Avoid generic placeholders.
+CURRENT CREDIT METRICS:
+- Credit Utilization: ${utilization || 'Not specified'}%
+- Active Trade Lines: ${tradeLines || 'Not specified'}
+- Late Payments (90 Days): ${latePayments || 'Not specified'}
+- Derogatories/Collections: ${derogatories || 'Not specified'}
+- Owner FICO Score: ${ownerFico || 'Not specified'}
+- Credit History (Years): ${creditHistory || 'Not specified'}
 
-Generate a JSON object with these 7 sections:
+FUNDING GOALS:
+- Funding Goal: ${fundingGoal || 'Not specified'}
+- Target Credit Limit: ${targetLimit || 'Not specified'}
+- Timeframe: ${timeframe || 'Not specified'}
+
+Generate a JSON object with these 7 sections (use markdown formatting):
 {
-  "executiveSummary": "A compelling 2-3 paragraph executive summary that captures the essence of the proposal, the problem being addressed, your unique solution, and expected impact. Make it persuasive and engaging.",
+  "profileSummary": "2-3 paragraphs (200-250 words) analyzing the business's current credit position, strengths, and improvement opportunities",
   
-  "needsStatement": "3-4 paragraphs detailing: (1) The specific problem or need this project addresses, (2) Supporting evidence, statistics, or data demonstrating the need, (3) Who is affected and how, (4) Why addressing this need is urgent and important. Be specific and data-driven where possible.",
+  "quickWins": "1-2 paragraphs listing immediate actions they can take within 30 days to boost credit signals",
   
-  "programDescription": "4-5 paragraphs describing: (1) Your proposed solution/program in detail, (2) Specific activities and methods you'll use, (3) Target population and how you'll reach them, (4) Timeline of program activities, (5) Why your approach is effective and evidence-based. Include concrete details about implementation.",
+  "tieredTradeLinesPlan": "2-3 paragraphs explaining starter, net-30, and revolving tradelines with specific vendor recommendations (Uline, Quill, Grainger, etc.)",
   
-  "outcomesEvaluation": "3-4 paragraphs covering: (1) Specific, measurable outcomes you expect to achieve, (2) How you will measure success (evaluation methods and metrics), (3) Short-term and long-term impact, (4) How you'll use evaluation results to improve the program. Include both quantitative and qualitative measures.",
+  "cardStrategy": "2-3 paragraphs detailing which business cards to target based on their profile (Amex Blue Business Plus, Chase Ink, etc.), in what order, with utilization tips",
   
-  "budgetNarrative": "A detailed budget narrative (3-4 paragraphs) explaining: (1) Major budget categories and amounts, (2) How each expense directly supports project goals, (3) Why the budget is reasonable and necessary, (4) Any cost-sharing or matching funds. Make the connection between budget items and program activities clear.",
+  "bankingDataSignals": "1-2 paragraphs on banking relationships, revenue verification, and D&B/Experian profile optimization",
   
-  "implementationTimeline": "A detailed timeline (4-6 milestones/phases) showing: (1) Key project phases from start to completion, (2) Major milestones and deliverables, (3) Responsible parties, (4) Timeframes for each phase. Format as an array of milestone objects with structure: {\"phase\": \"Phase name\", \"activity\": \"What happens\", \"timeframe\": \"Month 1-3 or specific dates\", \"milestone\": \"Key deliverable\"}",
+  "actionPlan": "A clear 30/60/90-day timeline with specific milestones for each phase",
   
-  "recommendations": [
-    "3-5 specific, actionable recommendations for strengthening this proposal",
-    "Each recommendation should be a complete sentence offering concrete advice"
-  ]
+  "riskFlagsCompliance": "1-2 paragraphs identifying any red flags (late payments, derogatories, utilization) and compliance issues"
 }
 
-IMPORTANT: 
-- Use the ${writingTone} writing style throughout
-- Be specific - avoid phrases like "we will work hard" or "we are committed"
-- Include realistic details based on the provided information
-- Make it persuasive and fundable
-- Return ONLY valid JSON, no explanations or markdown`;
+CRITICAL REQUIREMENTS:
+- Be specific and actionable - reference actual data from the profile
+- Include specific vendor names and card products
+- Provide realistic timeframes based on current credit age
+- Use clear, direct business language
+- If information is missing, insert [Pending Input] but still provide general guidance
+- Return ONLY valid JSON, no markdown wrapper`;
 
     try {
-      console.log('[Express] /api/generate - Calling OpenAI API for grant proposal...');
+      console.log('[Vercel] /api/generate - Calling OpenAI API for credit roadmap...');
       
       const completion = await ai.chat.completions.create({
         model: "gpt-4o",
         messages: [
           {
             role: "system",
-            content: "You are an expert grant writer with deep knowledge of successful grant proposals across all sectors. Create compelling, fundable proposals with specific details. Return valid JSON only."
+            content: "You are Credit Commander, an expert business credit advisor with AI-powered capabilities. Generate personalized, actionable credit-building roadmaps that help businesses establish and improve their business credit profiles. Return valid JSON only."
           },
           {
             role: "user",
-            content: grantProposalPrompt,
+            content: creditRoadmapPrompt,
           },
         ],
         response_format: { type: "json_object" },
         max_tokens: 3000,
       });
 
-      console.log('[Express] /api/generate - OpenAI API call completed');
+      console.log('[Vercel] /api/generate - OpenAI API call completed');
       
       const aiResponse = JSON.parse(completion.choices[0].message.content || '{}');
       
-      // Transform response to match frontend expectations
+      // Transform response to match Credit Commander frontend expectations (7 sections)
       const response = {
-        summary: aiResponse.executiveSummary || 'Executive summary not generated.',
-        needsStatement: aiResponse.needsStatement || 'Needs statement not generated.',
-        programDescription: aiResponse.programDescription || 'Program description not generated.',
-        outcomesEvaluation: aiResponse.outcomesEvaluation || 'Outcomes and evaluation not generated.',
-        budgetNarrative: Array.isArray(aiResponse.budgetNarrative) 
-          ? aiResponse.budgetNarrative 
-          : aiResponse.budgetNarrative ? [aiResponse.budgetNarrative] : ['Budget narrative not generated.'],
-        timeline: aiResponse.implementationTimeline || [],
-        recommendations: aiResponse.recommendations || ['Review and refine your proposal before submission']
+        profileSummary: aiResponse.profileSummary || 'Profile summary not generated.',
+        quickWins: aiResponse.quickWins || 'Quick wins not generated.',
+        tieredTradeLinesPlan: aiResponse.tieredTradeLinesPlan || 'Trade lines plan not generated.',
+        cardStrategy: aiResponse.cardStrategy || 'Card strategy not generated.',
+        bankingDataSignals: aiResponse.bankingDataSignals || 'Banking signals not generated.',
+        actionPlan: aiResponse.actionPlan || '30/60/90-day action plan not generated.',
+        riskFlagsCompliance: aiResponse.riskFlagsCompliance || 'Risk flags not generated.'
       };
 
-      console.log('[Express] /api/generate - Grant proposal generated successfully');
+      console.log('[Vercel] /api/generate - Credit roadmap generated successfully');
 
       // Increment usage counter AFTER successful generation
       const incrementResult = await incrementUsage(req);
@@ -325,19 +338,19 @@ IMPORTANT:
       return res.status(200).json(response);
 
     } catch (error: any) {
-      console.error('[Express] /api/generate - OpenAI error:', error.message);
-      console.error('[Express] /api/generate - Full error:', error);
+      console.error('[Vercel] /api/generate - OpenAI error:', error.message);
+      console.error('[Vercel] /api/generate - Full error:', error);
       
       // Return a friendly error with details for debugging
       return res.status(500).json({ 
-        error: 'Failed to generate grant proposal. Please try again.',
+        error: 'Failed to generate credit roadmap. Please try again.',
         details: process.env.NODE_ENV !== 'production' ? error.message : undefined
       });
     }
 
   } catch (error: any) {
-    console.error('[Express] /api/generate - Error:', error);
-    console.error('[Express] /api/generate - Stack:', error.stack);
+    console.error('[Vercel] /api/generate - Error:', error);
+    console.error('[Vercel] /api/generate - Stack:', error.stack);
     
     return res.status(500).json({
       error: 'Something went wrong. Please try again later.',
