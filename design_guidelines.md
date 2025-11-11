@@ -1,32 +1,34 @@
-# GrantGenie Toolkit Template Design Guidelines
+# Credit Commander Design Guidelines
 
 ## Design Approach
-**System-Based Approach**: Following Material Design principles with custom GrantGenie branding for a professional, productivity-focused mini-dashboard interface.
+**System-Based Approach**: Following Material Design principles with custom Credit Commander branding for a professional, credit-focused dashboard interface with dark mode by default.
 
 ## Core Design Elements
 
 ### Color Palette
 **Primary Colors:**
-- Light Blue: 197 87% 64% (primary brand color #4FC3F7)
-- Yellow: 56 100% 62% (accent color - use sparingly)
-- White: 0 0% 100%
-- Gray: 0 0% 62%
-- Black: 0 0% 0%
+- Light Blue: #4DB6E7 (primary brand color)
+- Gold/Yellow: #FFD54A (accent color for highlights and CTAs)
+- White: #FFFFFF
+- Dark Background: #0A0A0A → #1A1A1A gradient
+- Success Green: #4CAF50
+- Error Red: #F44336
 
 **Usage:**
-- Primary buttons and CTAs: Black backgrounds with white text
-- Input focus states and active elements: Light blue
-- Minimal yellow accents for success states only
-- Clean white backgrounds with subtle gray borders
+- Primary buttons: Gold backgrounds with dark text
+- Secondary buttons: Blue outlines with white text (dark mode)
+- Credit signals: Badge components with colored backgrounds
+- Headers: Blue shield logo with Credit Commander branding
+- Accents: Gold for important CTAs and highlights
 
 ### Typography
 **Font Stack:**
-- Headings: Montserrat (600 weight for toolkit names, 500 for section headers)
+- Headings: Montserrat (600 weight for app title, 500 for section headers)
 - Body Text: Open Sans (400 regular, 600 semi-bold for labels)
 - Button Text: Open Sans 500 semi-bold
 
 **Hierarchy:**
-- H1 (Toolkit Name): Montserrat 600, 28px desktop / 24px mobile
+- H1 (App Title): Montserrat 600, 28px desktop / 24px mobile
 - Section Labels: Montserrat 500, 18px
 - Body Text: Open Sans 400, 16px
 - Button Text: Open Sans 500, 14px
@@ -38,57 +40,96 @@
 - Button padding: 12px vertical, 20px horizontal
 
 **Grid Structure:**
-- Desktop: 2-column layout (40% input panel, 60% results panel)
-- Mobile: Stacked single-column with input panel first
+- Desktop: Single-column layout optimized for credit roadmap display
+- Mobile: Responsive stacking with optimized touch targets
 - Container max-width: 1200px with 24px side margins
 
 ### Component Library
 
 **Panels:**
 - Border radius: 16px
-- Box shadow: 0 2px 8px rgba(0,0,0,0.08)
-- Background: White with 1px light gray border
+- Box shadow: 0 2px 8px rgba(0,0,0,0.08) (light mode)
+- Background: Dark elevated surfaces with blue borders (dark mode)
 - Padding: 24px
 
 **Buttons:**
-- Primary: Black background, white text, 8px border radius
-- Hover: Subtle scale (1.02) and shadow enhancement
-- Focus: 2px light blue outline
+- Primary: Gold background (#FFD54A), dark text, 8px border radius
+- Secondary: Blue outline with transparent background
+- Hover: Subtle scale (1.02) and glow enhancement
+- Focus: 2px blue outline for accessibility
 - Padding: 12px vertical, 20px horizontal
 
+**Credit Signal Badges:**
+- Compact badge components with colored backgrounds
+- Icons + text for visual recognition
+- Green for positive signals, blue for neutral, red for warnings
+- Border radius: 6px for rounded badge appearance
+
 **Form Elements:**
-- Textarea/Inputs: 1px gray border, 8px border radius, 12px padding
-- Focus state: Light blue border and subtle glow
-- Placeholder text: Medium gray
+- Textarea/Inputs: 1px border, 8px border radius, 12px padding
+- Focus state: Blue border and subtle glow
+- Dark mode: Light text on dark input backgrounds
+- Placeholder text: Muted gray
 
 **Results Display:**
-- Each result in bordered container with timestamp
-- Copy and download buttons inline with each result
-- Maximum 5 stored results with scroll overflow
+- Clean HTML panel rendering with section headings
+- PDF export with professional formatting
+- CSV data export for analysis
+- Save/load functionality with database persistence
+
+### Theme System
+
+**Dark Mode (Default):**
+- Background: Dark gradient (#0A0A0A → #1A1A1A)
+- Cards: Elevated dark surfaces with blue borders
+- Text: Pure white (#FFFFFF)
+- Accents: Gold glows and blue highlights
+- Logo: 197px height with transparent background
+
+**Light Mode:**
+- Background: Blue→white gradient
+- Cards: White with subtle shadows
+- Text: Dark slate (#1e293b)
+- Accents: Gold buttons and blue links
+
+**Theme Persistence:**
+- Stored in localStorage as 'cc-theme'
+- Theme toggle with sun/moon icons
+- Respects user preference across sessions
 
 ### Micro-Interactions
 **Minimal Animation:**
 - Button hover: 150ms ease scale and shadow
-- Loading state: Subtle pulse on submit button
+- Loading state: Subtle pulse on generate button
 - Focus transitions: 200ms ease for outline appearance
-- No distracting animations or unnecessary motion
+- Theme toggle: Smooth transition between modes
 
 ### Visual Hierarchy
-- Logo and toolkit name prominent in header
-- Clear separation between input and results panels
-- Results displayed chronologically with clear timestamps
-- Footer attribution subtle but visible
+- Credit Commander logo (197px height) and title prominent in header
+- Clear KPI dashboard with credit metrics
+- Credit signal badges for quick status visibility
+- 9-section roadmap with logical storytelling flow
+- Professional PDF export matching panel design
 
 ### Mobile Considerations
 - Touch-friendly button sizes (minimum 44px height)
 - Adequate spacing between interactive elements
 - Readable text sizes (minimum 16px for inputs)
-- Optimized panel stacking with appropriate margins
+- Responsive logo and header layout
+- Optimized form field stacking
 
 ### Accessibility Standards
 - WCAG AA contrast ratios maintained
 - Focus indicators on all interactive elements
 - Proper semantic HTML structure
 - Screen reader friendly labels and descriptions
+- Reduced motion support for animations
 
-This design system ensures consistency while maintaining the professional GrantGenie brand identity and optimizing for standalone use and iframe embedding.
+### Credit Commander Branding
+- Blue shield logo at 197px height
+- Light blue (#4DB6E7) + Gold (#FFD54A) color scheme
+- Professional credit-focused interface
+- Dark mode by default for modern aesthetic
+- Clean, minimal design optimized for readability
+
+This design system ensures consistency while maintaining the professional Credit Commander brand identity and optimizing for credit analysis workflows and client-facing use.

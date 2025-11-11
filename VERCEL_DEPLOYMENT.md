@@ -1,16 +1,16 @@
-# Vercel Production Deployment Guide
+# Vercel Production Deployment Guide - Credit Commander
 
 ## Security Features Implemented
 
 ### ✅ Implemented in Code
-1. **JWT Authentication** - All protected routes require valid Supabase JWT tokens
+1. **Anonymous Client ID System** - Browser-based client identification for report ownership
 2. **HTML Sanitization** - XSS protection via sanitize-html library
-3. **CORS Protection** - Locked to grant.yourbizguru.com and *.vercel.app
-4. **Ownership Enforcement** - Users can only access their own reports
+3. **CORS Protection** - Configurable allowed origins for iframe embedding
+4. **Ownership Enforcement** - Users can only access their own reports via client ID
 5. **Production Error Handling** - Generic error messages, no stack traces
-6. **Row-Level Security** - Supabase RLS policies enforce user_id = auth.uid()
+6. **IP-Based Rate Limiting** - 30 reports per tool per IP address (soft launch protection)
 
-### ⚠️ Rate Limiting (Requires Additional Setup)
+### ⚠️ Additional Rate Limiting (Optional)
 
 **Option 1: Vercel Pro Plan (Recommended)**
 - Vercel Pro includes built-in DDoS protection and rate limiting
@@ -40,11 +40,6 @@ if (!success) {
 }
 ```
 
-**Option 3: Vercel Edge Config + KV**
-- Use Vercel KV for distributed rate limiting
-- Requires Vercel Pro plan
-- See: https://vercel.com/docs/storage/vercel-kv
-
 ---
 
 ## Environment Variables
@@ -53,25 +48,22 @@ Set these in the Vercel dashboard (Settings → Environment Variables):
 
 ```env
 NODE_ENV=production
-DATABASE_URL=postgresql://postgres.[PROJECT]:[PASSWORD]@aws-0-us-west-1.pooler.supabase.com:5432/postgres
-SUPABASE_URL=https://[PROJECT].supabase.co
-SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+DATABASE_URL=postgresql://[username]:[password]@[host]/[database]
 OPENAI_API_KEY=sk-proj-...
+SESSION_SECRET=your-random-secret-key
 ```
 
 ---
 
 ## CORS Configuration
 
-Currently configured for:
-- `https://grant.yourbizguru.com` (production)
-- `https://*.vercel.app` (preview deployments)
+Currently configured for development (permissive). For production, edit `server/routes.ts`:
 
-To modify, edit `api/[...path].ts`:
 ```typescript
 const allowedOrigins = [
-  'https://grant.yourbizguru.com',
-  /https:\/\/.*\.vercel\.app$/,
+  'https://yourdomain.com',
+  'https://www.yourdomain.com',
+  /https:\/\/.*\.vercel\.app$/,  // Preview deployments
   // Add more domains here
 ];
 ```
@@ -82,111 +74,178 @@ const allowedOrigins = [
 
 ### Before First Deploy
 - [ ] Set all environment variables in Vercel dashboard
-- [ ] Verify Supabase RLS policies are active
-- [ ] Test authentication with real Supabase user account
-- [ ] Verify CORS settings match your domain
-- [ ] Decide on rate limiting solution (see above)
+- [ ] Verify database connection string is correct
+- [ ] Test OpenAI API key is valid
+- [ ] Update CORS settings for your production domain
+- [ ] Review rate limiting configuration (30 reports per IP)
 
 ### After Deploy
-- [ ] Test authentication flow in production
-- [ ] Verify CORS works from your domain
-- [ ] Test report save/list/delete with real user
+- [ ] Test credit roadmap generation in production
+- [ ] Verify report save/load functionality works
+- [ ] Test PDF export downloads correctly
 - [ ] Monitor Vercel logs for errors
 - [ ] Check OpenAI usage dashboard for unexpected spikes
+- [ ] Verify rate limiting blocks after 30 reports
 
 ### Optional Production Enhancements
 - [ ] Set up Vercel Analytics
 - [ ] Configure custom domain SSL
 - [ ] Add monitoring/alerting (e.g., Sentry)
-- [ ] Implement rate limiting (Upstash or Vercel KV)
+- [ ] Implement additional rate limiting (Upstash or Vercel KV)
 - [ ] Add request logging for security audits
+- [ ] Set up database backups
 
 ---
 
 ## Testing Production Deployment
 
-### 1. Test Authentication
+### 1. Test Credit Roadmap Generation
 ```bash
-# Get JWT token from Supabase (after user login in frontend)
-curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  https://grant.yourbizguru.com/api/reports/list?toolkit=grantgenie
+curl -X POST https://your-domain.vercel.app/api/generate \
+  -H "Content-Type: application/json" \
+  -H "X-Client-Id: test-client-123" \
+  -d '{
+    "tool": "creditcommander",
+    "payload": {
+      "projectName": "Test Business",
+      "organizationType": "LLC",
+      ...
+    }
+  }'
 ```
 
-### 2. Test CORS
-```javascript
-// Should work from grant.yourbizguru.com
-fetch('https://grant.yourbizguru.com/api/reports/list?toolkit=grantgenie', {
-  headers: { 'Authorization': 'Bearer YOUR_JWT_TOKEN' }
-});
-
-// Should fail from unauthorized origin
-// Error: CORS policy blocked
+### 2. Test Report Listing
+```bash
+curl -H "X-Client-Id: test-client-123" \
+  https://your-domain.vercel.app/api/reports/list?toolkit=creditcommander
 ```
 
-### 3. Test Ownership Enforcement
-- User A saves a report
-- User B tries to access User A's report
-- Expected: 404 Not Found (ownership check prevents access)
+### 3. Test Rate Limiting
+- Generate 30 reports from same IP
+- 31st request should return usage limit error
+- Verify error message is user-friendly
 
 ---
 
 ## Security Notes
 
 ### ✅ What's Protected
-- All report CRUD operations require JWT authentication
-- Users cannot access other users' reports (enforced in code + RLS)
+- All report CRUD operations use client ID for ownership
+- Users cannot access other users' reports (enforced by client ID)
 - XSS attacks blocked via HTML sanitization
 - CORS prevents unauthorized domains from calling API
 - Generic error messages in production
+- Rate limiting prevents abuse (30 reports per IP per tool)
 
 ### ⚠️ What Needs Additional Protection
-- **Rate Limiting**: Not implemented at Vercel level (see options above)
-- **API Abuse**: No request quotas per user (consider implementing)
-- **OpenAI Costs**: Could spike if users generate many reports (add user quotas)
+- **Additional Rate Limiting**: Consider per-user quotas beyond IP-based limiting
+- **API Abuse**: No request quotas per authenticated user (only IP-based)
+- **OpenAI Costs**: Could spike if users generate many reports (monitor usage)
 
 ### 🔒 Database Security
-Supabase RLS policies:
-```sql
--- SELECT policy
-CREATE POLICY "Users can view own reports"
-ON compliance_reports FOR SELECT
-USING (auth.uid() = user_id);
+- Client ID-based ownership enforcement
+- Backward compatibility with legacy toolkit identifiers
+- PostgreSQL connection pooling for performance
+- Automatic migrations via Drizzle ORM
 
--- INSERT policy
-CREATE POLICY "Users can insert own reports"
-ON compliance_reports FOR INSERT
-WITH CHECK (auth.uid() = user_id);
+---
 
--- DELETE policy
-CREATE POLICY "Users can delete own reports"
-ON compliance_reports FOR DELETE
-USING (auth.uid() = user_id);
+## Usage Tracking System
+
+Credit Commander includes IP-based usage tracking:
+
+```typescript
+// 30 reports per tool per IP address
+// Automatically tracked in usage_tracking table
+// Prevents abuse during soft launch
+
+// Check usage before generation
+const usageCheck = await checkUsageLimit(req, 'creditcommander');
+if (!usageCheck.allowed) {
+  return res.status(429).json({ 
+    error: "You've reached the maximum number of reports (30)..."
+  });
+}
 ```
 
 ---
 
 ## Troubleshooting
 
-### "Authentication required" in production
-- Verify Supabase JWT token is being sent in Authorization header
-- Check that SUPABASE_URL and SUPABASE_ANON_KEY are set in Vercel
-- Ensure frontend is sending `Bearer TOKEN` format
+### "X-Client-Id header is required" errors
+- Verify frontend is sending X-Client-Id header in all requests
+- Check that browser is generating and storing client ID correctly
+- Ensure client ID is consistent across requests
 
 ### CORS errors
-- Verify origin is in allowedOrigins array
-- Check that origin header matches exactly (https vs http)
-- Ensure credentials: 'include' is set in frontend fetch
+- Verify your domain is in the allowed origins list
+- Check that requests include proper headers
+- Ensure iframe embedding domain is whitelisted
 
-### "Report not found" when accessing own report
-- Check that userId from JWT matches report.userId in database
-- Verify RLS policies are not blocking access
-- Check Supabase logs for policy violations
+### Database connection errors
+- Verify DATABASE_URL is correctly set in Vercel
+- Check database is accessible from Vercel's servers
+- Ensure connection string includes proper pooling parameters
+
+### OpenAI API errors
+- Verify OPENAI_API_KEY is set correctly
+- Check OpenAI account has sufficient credits
+- Monitor API usage in OpenAI dashboard
+
+### Rate limiting not working
+- Verify IP address detection is working (check logs)
+- Ensure usage_tracking table exists in database
+- Check that tool identifier matches ('creditcommander')
 
 ---
 
-## Contact
+## Monitoring & Maintenance
 
-For security issues or questions about this deployment:
-- Review code: `api/[...path].ts`, `server/auth.ts`, `server/routes.ts`
-- Check Vercel logs: https://vercel.com/[your-team]/[project]/logs
-- Supabase Dashboard: https://supabase.com/dashboard/project/[PROJECT]
+### Key Metrics to Monitor
+1. **OpenAI API Usage** - Track costs and request volume
+2. **Database Size** - Monitor report storage growth
+3. **Error Rates** - Watch for spikes in Vercel logs
+4. **Response Times** - Ensure AI generation stays performant
+5. **Rate Limit Hits** - Track how often users hit the 30-report cap
+
+### Regular Maintenance
+- Review and clean up old reports if needed
+- Monitor OpenAI costs and adjust rate limits if necessary
+- Update dependencies regularly for security patches
+- Backup database regularly
+- Review CORS configuration as domains change
+
+---
+
+## Custom Domain Setup
+
+1. Add custom domain in Vercel dashboard
+2. Update DNS records as instructed by Vercel
+3. Wait for SSL certificate provisioning
+4. Update CORS configuration to include new domain
+5. Test all functionality on custom domain
+
+---
+
+## Rollback Procedure
+
+If deployment has issues:
+
+1. **Immediate**: Use Vercel dashboard to rollback to previous deployment
+2. **Check logs**: Review Vercel logs to identify the issue
+3. **Fix locally**: Test fix in Replit before redeploying
+4. **Redeploy**: Push fix to GitHub, Vercel auto-deploys
+
+---
+
+## Support Resources
+
+- **Vercel Docs**: https://vercel.com/docs
+- **Neon Database**: https://neon.tech/docs
+- **OpenAI API**: https://platform.openai.com/docs
+- **Drizzle ORM**: https://orm.drizzle.team/docs
+
+---
+
+**Last Updated**: November 2025  
+**Version**: Credit Commander 1.0.0

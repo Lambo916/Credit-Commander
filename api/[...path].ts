@@ -232,7 +232,7 @@ Deadline: ${formData.deadline || 'Not specified'}`;
               model: "gpt-4o",
               messages: [{
                 role: "system",
-                content: "You are GrantGenie, an AI grant writing assistant. Generate professional grant proposals in HTML format with structured sections."
+                content: "You are Credit Commander, an AI business credit building assistant. Generate professional credit roadmaps in HTML format with structured sections."
               }, {
                 role: "user",
                 content: prompt

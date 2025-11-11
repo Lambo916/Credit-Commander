@@ -121,7 +121,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .insert(complianceReports)
       .values({
         userId,
-        toolkitCode: data.toolkitCode || 'grantgenie',
+        toolkitCode: data.toolkitCode || 'creditcommander',
         name: data.name,
         entityName: data.entityName,
         entityType: data.entityType,

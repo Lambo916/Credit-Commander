@@ -14,9 +14,9 @@ function getClientIp(req: VercelRequest): string {
 }
 
 // Normalize and validate tool parameter (prevent bypass via case/variant strings)
-function normalizeTool(tool: any): 'grantgenie' {
-  // Always return 'grantgenie' since CompliPilot has been deprecated
-  return 'grantgenie'; // All requests use grantgenie toolkit
+function normalizeTool(tool: any): 'creditcommander' {
+  // Always return 'creditcommander' - Credit Commander is the only active toolkit
+  return 'creditcommander';
 }
 
 // Helper for CORS
@@ -76,7 +76,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Normalize and validate tool parameter (prevent usage cap bypass)
     const tool = normalizeTool(req.body?.tool);
-    const toolName = 'GrantGenie'; // Always use GrantGenie since CompliPilot is deprecated
+    const toolName = 'Credit Commander'; // Credit Commander is the only active toolkit
 
     const db = getDb();
     

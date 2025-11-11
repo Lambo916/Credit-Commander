@@ -28,7 +28,7 @@ export const complianceReports = pgTable("compliance_reports", {
   htmlContent: text("html_content").notNull(),
   checksum: text("checksum").notNull(),
   metadata: json("metadata"),
-  toolkitCode: text("toolkit_code").notNull().default('grantgenie'),
+  toolkitCode: text("toolkit_code").notNull().default('creditcommander'),
   ownerId: text("owner_id").notNull().default(''),
   userId: varchar("user_id"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -45,7 +45,7 @@ export type ComplianceReport = typeof complianceReports.$inferSelect;
 export const usageTracking = pgTable("usage_tracking", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   ipAddress: text("ip_address").notNull(),
-  tool: text("tool").notNull().default('grantgenie'),
+  tool: text("tool").notNull().default('creditcommander'),
   reportCount: integer("report_count").notNull().default(0),
   lastUpdated: timestamp("last_updated").defaultNow().notNull(),
 }, (table) => ({

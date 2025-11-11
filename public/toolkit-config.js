@@ -1,5 +1,5 @@
 // Credit Commander Configuration
-// Simplified single-app configuration (migrated from multi-toolkit GrantGenie system)
+// AI-powered business credit building and funding roadmaps
 
 const CREDIT_COMMANDER_CONFIG = {
     name: "Credit Commander",
