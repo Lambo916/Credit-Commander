@@ -217,9 +217,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } = formData;
 
     // Validate required fields for Credit Commander
-    if (!businessName || !entityType) {
+    if (!businessName || !entityType || !state) {
       return res.status(400).json({
-        error: "Business name and entity type are required.",
+        error: "Business name, entity type, and state are required to generate your credit roadmap.",
       });
     }
 
