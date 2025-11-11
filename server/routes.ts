@@ -258,7 +258,7 @@ REMEMBER: Your roadmap should be data-driven yet actionable, helping business ow
 
   // Elev8 Analyzer diagnostic system prompt template (SCAFFOLD)
   const getDiagnosticSystemPrompt = () => {
-    return `You are Elev8 Analyzer, an expert business diagnostic assistant powered by GrantGenie.
+    return `You are Elev8 Analyzer, an expert business diagnostic assistant powered by Credit Commander.
 
 Your role is to generate professional strategic analysis reports that help businesses identify opportunities, address challenges, and elevate their operations.
 
